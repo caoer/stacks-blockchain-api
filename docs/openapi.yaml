@@ -14,30 +14,59 @@ info:
 
     It is comprised of two parts; the Stacks Blockchain API and the Stacks Core API.
 
-    <a href="collection.json" download="collection.json">Download Postman collection</a>
+    <a href="https://hirosystems.github.io/stacks-blockchain-api/collection.json" download="collection.json">Download Postman collection</a>
+
+tags:
+  - name: Faucets
+    description: |
+      Faucets are testnet only endpoints for delivering testnet tokens to a specified address. These are useful for
+      obtaining tokens to test transactions, exercise smart contracts, or perform network operations such as stacking or
+      mining on the testnet.
 
 paths:
   /extended/v1/faucets/stx:
     parameters:
       - name: address
         in: query
-        description: STX address
+        description: A valid testnet STX address
         required: true
         schema:
           type: string
+          example: ST3M7N9Q9HDRM7RVP1Q26P0EE69358PZZAZD7KMXQ
       - name: stacking
         in: query
-        description: Request the amount of STX needed for stacking
+        description: Request the amount of STX tokens needed for individual address stacking
         required: false
         schema:
           type: boolean
           default: false
     post:
-      summary: Get STX tokens
-      description: Get STX tokens for the testnet
+      summary: Add testnet STX tokens to address
+      description: |
+        Add 500 STX tokens to the specified testnet address. If the `stacking` parameter is set to `true`, the faucet
+        will add the required number of tokens for individual stacking to the specified testnet address.
+
+        The endpoint returns the transaction ID, which you can use to view the transaction in the
+        [Stacks Explorer](https://explorer.stacks.co/?chain=testnet). The tokens are delivered once the transaction has
+        been included in an anchor block.
+
+        **Note:** This is a testnet only endpoint. This endpoint will not work on the mainnet.
       tags:
         - Faucets
       operationId: run_faucet_stx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                stacking:
+                  type: boolean
+              example:
+                address: ST3M7N9Q9HDRM7RVP1Q26P0EE69358PZZAZD7KMXQ
+                stacking: false
       responses:
         200:
           description: Success
@@ -48,21 +77,38 @@ paths:
               example:
                 $ref: ./api/faucet/run-faucet.example.json
         500:
-          description: Failed to run faucet
+          description: Faucet call failed
   /extended/v1/faucets/btc:
     parameters:
       - name: address
         in: query
-        description: BTC address
+        description: A valid testnet BTC address
         required: true
         schema:
           type: string
+          example: 2N4M94S1ZPt8HfxydXzL2P7qyzgVq7MHWts
     post:
-      summary: Get BTC tokens
-      description: Get BTC tokens for the testnet
+      summary: Add testnet BTC tokens to address
+      description: |
+        Add 1 BTC token to the specified testnet BTC address.
+
+        The endpoint returns the transaction ID, which you can use to view the transaction in a testnet Bitcoin block
+        explorer. The tokens are delivered once the transaction has been included in a block.
+
+        **Note:** This is a testnet only endpoint. This endpoint will not work on the mainnet.
       tags:
         - Faucets
       operationId: run_faucet_btc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+              example:
+                address: 2N4M94S1ZPt8HfxydXzL2P7qyzgVq7MHWts
       responses:
         200:
           description: Success
@@ -73,7 +119,7 @@ paths:
               example:
                 $ref: ./api/faucet/run-faucet.example.json
         500:
-          description: Failed to run faucet
+          description: Faucet call failed
 
   /extended/v1/tx:
     get:
