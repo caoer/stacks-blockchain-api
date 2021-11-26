@@ -238,19 +238,28 @@ export function createTxRouter(db: DataStore): RouterWithAsync {
     const eventLimit = parseTxQueryEventsLimit(req.query['event_limit'] ?? 96);
     const eventOffset = parsePagingQueryInput(req.query['event_offset'] ?? 0);
     const includeUnanchored = isUnanchoredRequest(req, res, next);
-    const txQuery = await searchTx(db, { txId: tx_id, eventLimit, eventOffset, includeUnanchored });
-    if (!txQuery.found) {
-      res.status(404).json({ error: `could not find transaction by ID ${tx_id}` });
-      return;
-    }
-    // TODO: this validation needs fixed now that the mempool-tx and mined-tx types no longer overlap
-    /*
+    try {
+      const txQuery = await searchTx(db, {
+        txId: tx_id,
+        eventLimit,
+        eventOffset,
+        includeUnanchored,
+      });
+      if (!txQuery.found) {
+        res.status(404).json({ error: `could not find transaction by ID ${tx_id}` });
+        return;
+      }
+      // TODO: this validation needs fixed now that the mempool-tx and mined-tx types no longer overlap
+      /*
     const schemaPath = require.resolve(
       '@stacks/stacks-blockchain-api-types/entities/transactions/transaction.schema.json'
     );
     await validate(schemaPath, txQuery.result);
     */
-    res.json(txQuery.result);
+      return res.json(txQuery.result);
+    } catch (error) {
+      res.status(400).json(error);
+    }
   });
 
   router.getAsync('/:tx_id/raw', async (req, res) => {
