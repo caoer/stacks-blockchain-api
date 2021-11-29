@@ -257,8 +257,8 @@ export function createTxRouter(db: DataStore): RouterWithAsync {
     await validate(schemaPath, txQuery.result);
     */
       return res.json(txQuery.result);
-    } catch (error) {
-      res.status(400).json(error);
+    } catch (error: any) {
+      res.status(400).json(error.message);
     }
   });
 
