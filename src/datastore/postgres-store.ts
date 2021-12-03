@@ -1712,7 +1712,7 @@ export class PgDataStore
         `
         SELECT MAX(nonce) nonce
         FROM txs
-        WHERE sender_address = $1
+        WHERE sender_address = $1 OR sponsor_address= $1
         AND canonical = true AND microblock_canonical = true
         `,
         [args.stxAddress]
@@ -1721,7 +1721,7 @@ export class PgDataStore
         `
         SELECT MAX(nonce) nonce
         FROM mempool_txs
-        WHERE sender_address = $1
+        WHERE sender_address = $1 OR sponsor_address= $1
         AND pruned = false
         `,
         [args.stxAddress]
@@ -1745,7 +1745,7 @@ export class PgDataStore
             `
             SELECT nonce
             FROM mempool_txs
-            WHERE sender_address = $1 AND nonce = ANY($2)
+            WHERE sender_address = $1 OR sponsor_address= $1 AND nonce = ANY($2)
             AND pruned = false
             `,
             [args.stxAddress, expectedNonces]
