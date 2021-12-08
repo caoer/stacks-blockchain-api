@@ -94,6 +94,8 @@ paths:
           required: false
           schema:
             type: integer
+            default: 96
+            maximum: 200
         - name: offset
           in: query
           description: index of first transaction to fetch
@@ -158,6 +160,8 @@ paths:
           required: false
           schema:
             type: integer
+            default: 96
+            maximum: 200
         - name: offset
           in: query
           description: index of first mempool transaction to fetch
@@ -195,6 +199,8 @@ paths:
           required: false
           schema:
             type: integer
+            default: 96
+            maximum: 200
         - name: offset
           in: query
           description: index of first mempool transaction to fetch
@@ -331,6 +337,8 @@ paths:
           required: false
           schema:
             type: integer
+            default: 20
+            maximum: 200
         - name: offset
           in: query
           description: Index of the first microblock to fetch
@@ -402,6 +410,8 @@ paths:
           required: false
           schema:
             type: integer
+            default: 20
+            maximum: 200
         - name: offset
           in: query
           description: index of first block to fetch
@@ -549,6 +559,8 @@ paths:
           required: false
           schema:
             type: integer
+            default: 96
+            maximum: 250
         - name: offset
           in: query
           description: index of the first items to fetch
@@ -615,6 +627,8 @@ paths:
           required: false
           schema:
             type: integer
+            default: 96
+            maximum: 250
         - name: offset
           in: query
           description: index of first rewards to fetch
@@ -730,6 +744,12 @@ paths:
         - Smart Contracts
       operationId: get_contract_events_by_id
       parameters:
+        - name: contract_id
+          in: path
+          description: Contract identifier formatted as `<contract_address>.<contract_name>`
+          required: true
+          schema:
+            type: string
         - name: limit
           in: query
           description: max number of contract events to fetch
@@ -742,12 +762,6 @@ paths:
           required: false
           schema:
             type: integer
-        - name: contract_id
-          in: path
-          description: Contract identifier formatted as `<contract_address>.<contract_name>`
-          required: true
-          schema:
-            type: string
         - name: unanchored
           in: query
           description: Include transaction data from unanchored (i.e. unconfirmed) microblocks
@@ -1029,6 +1043,12 @@ paths:
         - Accounts
       operationId: get_account_transactions
       parameters:
+        - name: principal
+          in: path
+          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
+          required: true
+          schema:
+            type: string
         - name: limit
           in: query
           description: max number of account transactions to fetch
@@ -1041,12 +1061,6 @@ paths:
           required: false
           schema:
             type: integer
-        - name: principal
-          in: path
-          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
-          required: true
-          schema:
-            type: string
         - name: height
           in: query
           description: Filter for transactions only at this given block height
@@ -1112,6 +1126,12 @@ paths:
         - Accounts
       operationId: get_account_transactions_with_transfers
       parameters:
+        - name: principal
+          in: path
+          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
+          required: true
+          schema:
+            type: string
         - name: limit
           in: query
           description: max number of account transactions to fetch
@@ -1124,12 +1144,6 @@ paths:
           required: false
           schema:
             type: integer
-        - name: principal
-          in: path
-          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
-          required: true
-          schema:
-            type: string
         - name: height
           in: query
           description: Filter for transactions only at this given block height
@@ -1183,6 +1197,12 @@ paths:
         - Accounts
       operationId: get_account_assets
       parameters:
+        - name: principal
+          in: path
+          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
+          required: true
+          schema:
+            type: string
         - name: limit
           in: query
           description: max number of account assets to fetch
@@ -1195,12 +1215,6 @@ paths:
           required: false
           schema:
             type: integer
-        - name: principal
-          in: path
-          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
-          required: true
-          schema:
-            type: string
         - name: unanchored
           in: query
           description: Include transaction data from unanchored (i.e. unconfirmed) microblocks
@@ -1228,6 +1242,12 @@ paths:
         - Accounts
       operationId: get_account_inbound
       parameters:
+        - name: principal
+          in: path
+          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
+          required: true
+          schema:
+            type: string
         - name: limit
           in: query
           description: number of items to return
@@ -1240,12 +1260,6 @@ paths:
           required: false
           schema:
             type: integer
-        - name: principal
-          in: path
-          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
-          required: true
-          schema:
-            type: string
         - name: height
           in: query
           description: Filter for transfers only at this given block height
@@ -1278,6 +1292,12 @@ paths:
         - Accounts
       operationId: get_account_nft
       parameters:
+        - name: principal
+          in: path
+          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
+          required: true
+          schema:
+            type: string
         - name: limit
           in: query
           description: number of items to return
@@ -1290,12 +1310,6 @@ paths:
           required: false
           schema:
             type: integer
-        - name: principal
-          in: path
-          description: Stacks address or a Contract identifier (e.g. `SP31DA6FTSJX2WGTZ69SFY11BH51NZMB0ZW97B5P0.get-info`)
-          required: true
-          schema:
-            type: string
         - name: unanchored
           in: query
           description: Include transaction data from unanchored (i.e. unconfirmed) microblocks
